@@ -10,9 +10,10 @@
 #include <QFile>
 #include<QFileDialog>
 #include<QDateTime>
-#include <QTextCodec>
+//#include <QTextCodec>
 #include<QApplication>
 #include <QPropertyAnimation>
+#include <QRegularExpression>
 #define GetRowCol(__row, __col, __id) \
     int __row = _s[__id]._row;\
     int __col = _s[__id]._col
@@ -30,7 +31,7 @@ Board::Board(QWidget *parent) : QFrame(parent)
     restoreChessButton();
     QPixmap pixmap = QPixmap("2.jpg").scaled(this->size());
     QPalette palette(this->palette());
-    palette.setBrush(QPalette::Background, QBrush(pixmap));
+    palette.setBrush(backgroundRole(), QBrush(pixmap));
     this->setAutoFillBackground(true);
     this->setPalette(palette);
     this->grabKeyboard();
@@ -204,13 +205,13 @@ void Board::restoreChess()
             int i=0;
             _plte->clear();
             QString strLine;
-            in.setCodec("UTF-8");
+            //in.set("UTF-8");
             while (!in.atEnd())
             {
                 strLine = in.readLine();
                 strLine.remove("\r\n");
 
-                QStringList sections = strLine.split(QRegExp( "[|\\s+]"));//“ \\s+” 匹配空格的
+                QStringList sections = strLine.split(QRegularExpression( "[|\\s+]"));//“ \\s+” 匹配空格的
                 if(i==0)
                 {
 //                    if(sections.at(0)=="1")
@@ -245,7 +246,7 @@ void Board::restoreChess()
     //            }
                 if(i>1)
                 {
-                    QStringList sections2 = strLine.split(QRegExp( "[|\\:]"));
+                    QStringList sections2 = strLine.split(QRegularExpression( "[|\\:]"));
                     QString str =sections2.at(0);
                     _turn=str.remove("第").remove("回合").toInt()+1;
 
@@ -288,7 +289,7 @@ void Board::restoreGo(int red, QString str)
 {
 
     for (int i=1;i<_turn+1;i++) {
-        str.replace("第"+QString::number(i,10)+"回合","").replace("\n","").remove(QRegExp("\\:")).remove(QRegExp("\\s+"));
+        str.replace("第"+QString::number(i,10)+"回合","").replace("\n","").remove(QRegularExpression("\\:")).remove(QRegularExpression("\\s+"));
     }
     str.replace("車","车").replace("馬","马");
     str.replace("１","1").replace("２","2").replace("３","3").replace("４","4").replace("５","5").replace("６","6").replace("７","7").replace("８","8").replace("９","9");
@@ -865,7 +866,7 @@ void Board::drawPlate(QPainter &p)
     // 居中绘制文本
     QFontMetrics metrics = p.fontMetrics();
     int stringHeight = metrics.ascent() + metrics.descent(); // 不算 line gap
-    int stringWidth = metrics.width("楚 河 汉 界"); // 字符串的宽度
+    int stringWidth = metrics.boundingRect("楚 河 汉 界").width(); // 字符串的宽度
     int x = rect.x() + (rect.width() - stringWidth) / 2;
     int y = rect.y() + (rect.height() - stringHeight) / 2 + metrics.ascent();
     p.drawText(x, y, "楚 河 汉 界");
@@ -1682,9 +1683,9 @@ void Board::informationDelet()
 
     QString ssssss=_plte->document()->toPlainText().trimmed().replace("\n       ","");
 
-    QStringList sections = ssssss.split(QRegExp( "[|\\n]"));
+    QStringList sections = ssssss.split(QRegularExpression( "[|\\n]"));
     for (int i=0;i<sections.size();i++){
-        QStringList sections2 = sections.at(i).split(QRegExp( "[|\\:]"));
+        QStringList sections2 = sections.at(i).split(QRegularExpression( "[|\\:]"));
         QString str =sections2.at(0);
         _turn=str.remove("第").remove("回合").toInt();
         if(_bRedTurn)

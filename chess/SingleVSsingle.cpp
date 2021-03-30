@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QTime>
 #include<QMessageBox>
+#include <qregularexpression.h>
 SingleVSsingle::SingleVSsingle()
 {
     _inver->setText("开始");
@@ -46,7 +47,7 @@ void SingleVSsingle::computerMove()
         data=dataQuery();
     }
 
-    if(data==NULL)
+    if(data.isEmpty())
     {
         qDebug() << "脱离数据库";
         SingleGameN::computerMove();
@@ -126,7 +127,7 @@ void SingleVSsingle::dataRead1()
 
     dataRead();
     QString temp=matchDateSVS();
-    if (!end && temp==NULL)
+    if (!end && temp.isEmpty())
     {
         bool thennext=sql_query.next();
 
@@ -220,7 +221,7 @@ QString SingleVSsingle::matchDateSVS()
     QString plte=_plte->document()->toPlainText().trimmed();
 //    qDebug()<<plte;
     for (int i=1;i<_turn+1;i++) {
-        plte.replace("第"+QString::number(i,10)+"回合","").replace("\n","").remove(QRegExp("\\:")).remove(QRegExp("\\s+"));
+        plte.replace("第"+QString::number(i,10)+"回合","").replace("\n","").remove(QRegularExpression("\\:")).remove(QRegularExpression("\\s+"));
 //        qDebug()<<plte+"----------------------------------------";
     }
     str.replace("车","車").replace("马","馬");

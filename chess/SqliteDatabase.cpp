@@ -6,6 +6,7 @@
 #include <QTimer>
 #include<QTime>
 #include<QMessageBox>
+#include <QRegularExpression>
 SqliteDatabase::SqliteDatabase()
 {
     //打开数据库
@@ -45,7 +46,7 @@ void SqliteDatabase::computerMove()
     }
     if (_bSide)
     {
-        if(data==NULL)
+        if(data.isEmpty())
         {
             qDebug() << "脱离数据库";
             SingleGameN::computerMove();
@@ -66,7 +67,7 @@ void SqliteDatabase::computerMove()
         }
     }
     else {
-        if(data==NULL)
+        if(data.isEmpty())
         {
             qDebug() << "脱离数据库";
             SingleGameN::computerMove();
@@ -100,7 +101,7 @@ void SqliteDatabase::dataRead1()
 
     dataRead();
     QString temp=matchDate();
-    if (!end && temp==NULL)
+    if (!end && temp.isEmpty())
     {
         bool thennext=sql_query.next();
 
@@ -139,7 +140,7 @@ QString SqliteDatabase::dataQuery()
                      dataRead1();
 
                      step1=_s_step;
-                     if(step1!=NULL)  qDebug() << "路径存在哦";
+                     if(step1.size())  qDebug() << "路径存在哦";
                      return step1;
       }
     return step1;
@@ -170,7 +171,7 @@ QString SqliteDatabase::matchDate()
     QString plte=_plte->document()->toPlainText().trimmed();
 //    qDebug()<<plte;
     for (int i=1;i<_turn+1;i++) {
-        plte.replace("第"+QString::number(i,10)+"回合","").replace("\n","").remove(QRegExp("\\:")).remove(QRegExp("\\s+"));
+        plte.replace("第"+QString::number(i,10)+"回合","").replace("\n","").remove(QRegularExpression("\\:")).remove(QRegularExpression("\\s+"));
 //        qDebug()<<plte+"----------------------------------------";
     }
 //    qDebug()<<plte;

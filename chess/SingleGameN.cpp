@@ -92,7 +92,7 @@ void SingleGameN::computerMove()
     Board::getWin(step->_killid);
 
     QDateTime current_date_time =QDateTime::currentDateTime();
-    if(_date_cu==NULL&&_level<6)
+    if(_date_cu.isEmpty()&&_level<6)
     {
         _date_cu =current_date_time.toString("hhmm");
         qDebug() << _date_cu;
@@ -263,7 +263,7 @@ int SingleGameN::getMinScore(int level, int curMaxScore)
     getAllPossibleMove(steps);   // 是红旗的possiblemove
     QDateTime current_date_time =QDateTime::currentDateTime();
     int minScore = 100000;
-    if(_date_cu==NULL)
+    if(_date_cu.isEmpty())
     {
         _date_cu =current_date_time.toString("hhmm");
         qDebug() << _date_cu;

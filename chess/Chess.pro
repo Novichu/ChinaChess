@@ -21,10 +21,4 @@ SOURCES += \
     SqliteDatabase.cpp \
     SingleVSsingle.cpp
 
-QT += widgets gui network sql
-
-DISTFILES +=
-
-INCLUDEPATH+= C:/Users/Administrator/AppData/Local/Programs/Python/Python37/include/
-
-LIBS += C:/Users/Administrator/AppData/Local/Programs/Python/Python37/libs/python37.lib
+QT += widgets gui network sql	

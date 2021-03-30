@@ -8,7 +8,7 @@ ChooseDlg::ChooseDlg(QWidget *parent) : QDialog(parent)
     QPixmap pixmap = QPixmap("2.png").scaled(this->size());
 
     QPalette palette(this->palette());
-    palette.setBrush(QPalette::Background, QBrush(pixmap));
+    palette.setBrush(backgroundRole(), QBrush(pixmap));
     this->setAutoFillBackground(true);
     this->setPalette(palette);
 

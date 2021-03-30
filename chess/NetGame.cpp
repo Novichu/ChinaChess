@@ -1,7 +1,7 @@
 #include "NetGame.h"
 #include <QTime>
 #include<QMessageBox>
-
+#include<cstdlib>
 /*
     1.执红还是黑，服务器发出，客户端接收
     第一个字节固定1第二个字节1或者0；1表示接收方走红棋子，0表示走黑棋子
@@ -98,8 +98,8 @@ int NetGame:: generateRandomInteger()
 {
     QTime time;
     time= QTime::currentTime();
-    qsrand(time.msec()+time.second()*1000);
-    int n = qrand() % 2;    //产生2以内的随机数
+    srand(time.msec()+time.second()*1000);
+    int n = rand() % 2;    //产生2以内的随机数
     return n;
 }
 void NetGame::backFromNetwork(QByteArray)
